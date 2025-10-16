@@ -1,169 +1,101 @@
 # 🧠 n8n Instance (Dockerized)
 
-A ready-to-use **n8n Community Edition** setup using **Docker** and **Docker Compose**, designed for both local development and production environments.
+A lightweight **n8n Community Edition** setup using **Docker** and **Docker Compose**, built for both local development and production.
 
 ---
 
 ## 🚀 Overview
 
-This repository contains everything needed to run **n8n**, the workflow automation tool, inside Docker.
+Single setup for all environments — controlled entirely through `.env`.
 
-It includes:
-- A production `docker-compose.yml` (persistent data stored on the host)
-- A local development `docker-compose.dev.yml`
-- A `.env` configuration file
-- A clean Dockerfile using the official n8n image
-- Data persistence and separation between environments
-
----
-
-## 🧱 Project Structure
-
-```
-ai-n8n/
-├── Dockerfile
-├── docker-compose.yml
-├── docker-compose.dev.yml
-├── .env
-├── .gitignore
-├── README.md
-└── data/                # Local data folder (ignored by Git)
-```
+**Includes:**
+- `docker-compose.yml` (unified)
+- `.env.example` configuration
+- Data persistence via volume
+- Permission setup for host folders
 
 ---
 
 ## ⚙️ Setup
 
-### 1️⃣ Install Docker & Docker Compose
+### 1️⃣ Install Docker & Compose
 
 ```bash
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 ```
 
-Verify installation:
-```bash
-docker --version
-docker compose version
-```
-
 ---
 
-### 2️⃣ Clone this repository
+### 2️⃣ Clone and Configure
 
 ```bash
 git clone git@github.com:<username>/ai-n8n.git
 cd ai-n8n
-```
-
----
-
-### 3️⃣ Configure environment variables
-
-Copy `.env` and edit as needed:
-
-```bash
 cp .env.example .env
 ```
 
-Example `.env`:
+Edit `.env` as needed:
 
-```env
-# --- Authentication ---
-N8N_BASIC_AUTH_ACTIVE=true
-N8N_BASIC_AUTH_USER=admin
-N8N_BASIC_AUTH_PASSWORD=supersecure123
-
-# --- Host & Port ---
-N8N_HOST=localhost
+```bash
+# Environment
+NODE_ENV=development
 N8N_PORT=5678
-WEBHOOK_URL=http://localhost:5678/
 
-# --- Data Folder ---
-N8N_USER_FOLDER=/home/node/data
+# Data storage (local or prod)
+N8N_USER_FOLDER=./data
 
-# --- Environment ---
-NODE_ENV=production
+# Auth (enable for production)
+N8N_BASIC_AUTH_ACTIVE=false
+N8N_BASIC_AUTH_USER=
+N8N_BASIC_AUTH_PASSWORD=
 ```
-
-> Note: `N8N_USER_FOLDER` is where n8n stores all workflows, credentials, and configuration inside the container.
 
 ---
 
-## 🧩 Data Folders & Permissions
+### 3️⃣ Set Up Permissions
 
-Before running the containers, make sure the host folders exist and have the correct permissions:
-
-### ✅ Production
-
-```bash
-sudo mkdir -p /var/opt/n8n
-sudo chown -R 1000:1000 /var/opt/n8n
-sudo chmod -R 700 /var/opt/n8n
-```
-
-Mount in `docker-compose.yml`:
-
-```yaml
-volumes:
-  - /var/opt/n8n:/home/node/data
-```
-
-### ✅ Development Local
-
+Local:
 ```bash
 mkdir -p ./data
 sudo chown -R 1000:1000 ./data
 sudo chmod -R 700 ./data
 ```
 
-Mount in `docker-compose.dev.yml`:
-
-```yaml
-volumes:
-  - ./data:/home/node/data
+Production:
+```bash
+sudo mkdir -p /var/opt/n8n
+sudo chown -R 1000:1000 /var/opt/n8n
+sudo chmod -R 700 /var/opt/n8n
 ```
 
 ---
 
-## 🧩 Usage
+## ▶️ Run
 
-### ▶️ Development (local)
-
+### Local
 ```bash
-docker compose -f docker-compose.dev.yml up -d --build
+docker compose up -d
 ```
+Visit → [http://localhost:5678](http://localhost:5678)
 
-Access the UI at:
-```
-http://localhost:5678
-```
-
-### 🏭 Production
-
+### Production
 ```bash
-docker compose up -d --build
+NODE_ENV=production docker compose up -d
 ```
-
-Access the instance through your configured host (e.g., `https://n8n.yourdomain.com`).
 
 ---
 
-## 🧰 Useful Commands
+## 🧰 Common Commands
 
 | Command | Description |
 |----------|-------------|
-| `docker compose ps` | List running containers |
-| `docker compose logs -f` | Stream logs |
-| `docker compose down` | Stop and remove containers |
-| `docker exec -it n8n bash` | Open a shell inside the container |
-
-
-## 📜 License
-
-This project is licensed under the [MIT License](LICENSE).
+| `docker compose ps` | Show running containers |
+| `docker compose logs -f` | Tail logs |
+| `docker compose down` | Stop & remove |
+| `docker exec -it n8n bash` | Open a shell in the container |
 
 ---
 
 **Author:** Your Name  
-**Based on:** [n8n.io](https://n8n.io)
+Based on [n8n.io](https://n8n.io)
