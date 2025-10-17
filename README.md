@@ -35,47 +35,23 @@ cd ai-n8n
 cp .env.example .env
 ```
 
-Edit `.env` as needed:
-
-```bash
-# Environment
-NODE_ENV=development
-N8N_PORT=5678
-
-# Data storage (local or prod)
-N8N_USER_FOLDER=./data
-
-# Auth (enable for production)
-N8N_BASIC_AUTH_ACTIVE=false
-N8N_BASIC_AUTH_USER=
-N8N_BASIC_AUTH_PASSWORD=
-```
-
+Edit `.env` and add your variables.
 ---
 
 ### 3️⃣ Set Up Permissions
 
-Local:
 ```bash
-mkdir -p ./data
-sudo chown -R 1000:1000 ./data
-sudo chmod -R 700 ./data
+mkdir -p {N8N_USER_FOLDER}
+sudo chown -R 1000:1000 {N8N_USER_FOLDER}
+sudo chmod -R 700 {N8N_USER_FOLDER}
 ```
-
-Production:
-```bash
-sudo mkdir -p /var/opt/n8n
-sudo chown -R 1000:1000 /var/opt/n8n
-sudo chmod -R 700 /var/opt/n8n
-```
-
 ---
 
 ## ▶️ Run
 
 ### Local
 ```bash
-docker compose up -d
+docker compose up
 ```
 Visit → [http://localhost:5678](http://localhost:5678)
 
