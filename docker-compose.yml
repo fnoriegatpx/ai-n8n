@@ -5,12 +5,12 @@ services:
     restart: always
     env_file:
       - .env
-    user: '${UID}:${GID}'
     environment:
-      - NODE_ENV=${NODE_ENV:-production}
-      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE:-Europe/Madrid}
-      - TZ=${GENERIC_TIMEZONE:-Europe/Madrid}
+      - TZ=${GENERIC_TIMEZONE}
+      - N8N_EDITOR_BASE_URL=http://${DOMAIN}:${N8N_PORT}/
+      - WEBHOOK_URL=http://${DOMAIN}:${N8N_PORT}/
     ports:
-      - '${N8N_PORT:-5678}:5678'
+      - '${N8N_PORT}:5678'
     volumes:
-      - ${N8N_USER_FOLDER}:/home/node/.n8n
+      - ${DATA_PATH}:/home/node/.n8n
+
