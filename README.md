@@ -41,9 +41,9 @@ Edit `.env` and add your variables.
 ### 3️⃣ Set Up Permissions
 
 ```bash
-mkdir -p {N8N_USER_FOLDER}
-sudo chown -R 1000:1000 {N8N_USER_FOLDER}
-sudo chmod -R 700 {N8N_USER_FOLDER}
+mkdir -p {DATA_PATH}
+sudo chown -R 1000:1000 {DATA_PATH}
+sudo chmod -R 700 {DATA_PATH}
 ```
 ---
 
@@ -57,7 +57,7 @@ Visit → [http://localhost:5678](http://localhost:5678)
 
 ### Production
 ```bash
-NODE_ENV=production docker compose up -d
+docker compose up -d
 ```
 
 ---
@@ -73,5 +73,5 @@ NODE_ENV=production docker compose up -d
 
 ---
 
-**Author:** Your Name  
+**Author:** Felipe Noriega 
 Based on [n8n.io](https://n8n.io)
